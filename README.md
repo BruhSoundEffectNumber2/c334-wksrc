@@ -1,6 +1,12 @@
 # wksrc
 
-wikipedia search
+Wikipedia Search
+
+## Members
 
 Stuart Goldkamp
+Damon Lewis
 
+## Dependencies
+
+## Quick Start
