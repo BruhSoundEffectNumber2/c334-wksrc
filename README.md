@@ -4,8 +4,9 @@ Wikipedia Search
 
 ## Members
 
-Stuart Goldkamp
-Damon Lewis
+- Stuart Goldkamp
+
+- Damon Lewis
 
 ## Dependencies
 
