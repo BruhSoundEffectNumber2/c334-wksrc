@@ -3,12 +3,15 @@ import socketserver
 
 PORT = 8000
 
+def hello():
+    return "Hello, World!"
+
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(b"Hello, World!")
+        self.wfile.write(hello().encode())
 
 class Server(HTTPServer):
      allow_reuse_address = True
