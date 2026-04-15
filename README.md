@@ -18,5 +18,10 @@
 pip install -r requirements.txt
 ```
 
-## Quick Start
+Download NLTK data:
 
+```bash
+python3 dl_nltk_data.py
+```
+
+## Quick Start
