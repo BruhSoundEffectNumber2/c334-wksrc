@@ -1,26 +1,22 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
-import socketserver
+import nltk
 
-PORT = 8000
+def clean(raw: str) -> str:
+    return raw.strip().lower()
 
-def hello():
-    return "Hello, World!"
+def tokenize(raw: str) -> list[str]:
+    if not raw or raw.isspace():
+        raise ValueError("Input string cannot be empty.")
 
-class Handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write(hello().encode())
+    return nltk.word_tokenize(raw)
 
-class Server(HTTPServer):
-     allow_reuse_address = True
+def stem(tokens: list[str]) -> list[str]:
+    if not tokens:
+        raise ValueError("Input token list cannot be empty.")
+    
+    porter = nltk.PorterStemmer()
+    return [porter.stem(token) for token in tokens]
 
+def text_preprocess(raw: str) -> str:
+    final_tokens = stem(tokenize(clean(raw)))
 
-if __name__ == "__main__":
-    try:
-        with Server(("", PORT), Handler) as httpd:
-                print(f"Serving at port {PORT}")
-                httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("Server stopped.")
+    return ' '.join(final_tokens)
