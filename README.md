@@ -14,8 +14,9 @@
 
 ## Dependencies
 
-## Quick Start
-
 ```bash
 pip install -r requirements.txt
 ```
+
+## Quick Start
+
