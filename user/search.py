@@ -3,26 +3,35 @@
 #filepath = "C:\Users\lgfit\OneDrive\Desktop\LinuxDevOps\c334-wksrc\user\test.txt"
 #keyword = "example"
 
-def search_file(filepath, keyword):
+#open the file
+def read_file(filepath):
     with open(filepath, "r") as f:
-        lines = f.readlines()
-    
-    results = []
-    for line_no, line in enumerate(lines, start=1):
-        if keyword.lower() in line.lower():
-            results.append((line_no, line.strip()))
-    
-    return results #return line number and line text
+        return f.read()
 
-# debug: ask for input
-filepath = input("File path: ")
-keyword = input("Keyword: ")
+#actually search
+def search_string(content, keyword):
+    keyword = keyword.lower()
+    content_lower = content.lower()
 
-results = search_file(filepath, keyword)
+    positions = []
+    start = 0
+    while True:
+        pos = content_lower.find(keyword, start)
+        if pos == -1:
+            break
+        positions.append(pos)
+        start = pos + 1
 
-if results:
-    print(f"\n{len(results)} match(es) found for '{keyword}':\n") #number od ocurences
-    for line_no, line in results:
-        print(f"  Line {line_no}: {line}")
-else:
-    print(f"No matches found for '{keyword}'")
+    return positions
+
+
+# filepath = input("File path: ")
+# keyword = input("Keyword: ")
+
+# content = read_file(filepath)
+# positions = search_string(content, keyword)
+
+# if positions:
+#     print(positions)
+# else:
+#     print(f"No matches found for '{keyword}'")
