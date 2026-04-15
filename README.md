@@ -8,6 +8,8 @@ Wikipedia Search
 
 - Damon Lewis
 
+- Liam Fitting
+
 ## Dependencies
 
 ## Quick Start
