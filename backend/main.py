@@ -15,3 +15,8 @@ def stem(tokens: list[str]) -> list[str]:
     
     porter = nltk.PorterStemmer()
     return [porter.stem(token) for token in tokens]
+
+def text_preprocess(raw: str) -> str:
+    final_tokens = stem(tokenize(clean(raw)))
+
+    return ' '.join(final_tokens)
