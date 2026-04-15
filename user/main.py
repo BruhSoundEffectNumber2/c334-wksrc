@@ -1,3 +1,4 @@
+from backend import text_preprocess, file_to_String, string_to_file
 def hello():
     return "Hello, World!"
 
@@ -7,6 +8,12 @@ def given_path(path):
         with open(path, 'r') as file:
             print(f"File {path} successfully opened. Proceeding with indexing and searching.")
             # Add other functions for indexing here
+            text = file_to_String(path)
+            Processed = text_preprocess(text)
+            print(f"Original text: {text}")
+            print(f"Processed text: {Processed}")
+            string_to_file(Processed, "processed_output.txt")
+
     except FileNotFoundError:
         print(f"File {path} not found. Please check the file path and try again.")
 
