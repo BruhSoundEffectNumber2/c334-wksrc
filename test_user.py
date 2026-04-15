@@ -8,4 +8,4 @@ def test_search_string():
     content = "This is an example line. Another example here. No match on this line."
     keyword = "example"
 
-    assert search_string(content, keyword) == [10, 33]
+    assert search_string(content, keyword) == [11, 33]
