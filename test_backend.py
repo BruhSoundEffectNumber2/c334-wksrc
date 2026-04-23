@@ -1,5 +1,5 @@
 import pytest
-from backend.main import tokenize, clean, stem
+from wksrc.backend import tokenize, clean, stem
 
 def test_clean():
     assert clean("  Hello, World!  ") == "hello, world!"
@@ -10,6 +10,7 @@ def test_clean():
     assert clean("   ") == ""
     assert clean("12345") == "12345"
     assert clean("In the\nmiddle") == "in the\nmiddle"
+    
 
 def test_tokenize():
     # Basic test cases
