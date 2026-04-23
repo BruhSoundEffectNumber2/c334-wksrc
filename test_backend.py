@@ -1,43 +1,34 @@
-import pytest
-from backend.main import tokenize, clean, stem
-
-def test_clean():
-    assert clean("  Hello, World!  ") == "hello, world!"
-    assert clean("\nNew Line\n") == "new line"
-    assert clean("Mixed CASE") == "mixed case"
-    assert clean("Special chars!@#") == "special chars!@#"
-    assert clean("") == ""
-    assert clean("   ") == ""
-    assert clean("12345") == "12345"
-    assert clean("In the\nmiddle") == "in the\nmiddle"
+from backend.main import tokenize, remove_stop, text_preprocess
 
 def test_tokenize():
-    # Basic test cases
-    assert tokenize("Hello, World!") == ["Hello", ",", "World", "!"]
-    assert tokenize("This is a test.") == ["This", "is", "a", "test", "."]
+    assert tokenize("Hello, World!") == ["hello", ",", "world", "!"]
+    assert tokenize("This is a test.") == ["this", "is", "a", "test", "."]
+    assert tokenize("Multiple   spaces") == ["multiple", "spaces"]
+    assert tokenize("New\nLine") == ["new", "\n", "line"]
+    assert tokenize("Punctuation!,\"@#") == ["punctuation", "!", ",", "\"", "@", "#"]
+    assert tokenize("") == []
+    assert tokenize("   ") == []
+    assert tokenize("no-punctuation") == ["no", "-", "punctuation"]
+    assert tokenize("onething") == ["onething"]
+    assert tokenize("Mix oF everything! Does IT work? Yes, iT dOes.") == ["mix", "of", "everything", "!", "does", "it", "work", "?", "yes", ",", "it", "does", "."]
 
-    # Error handling
-    with pytest.raises(ValueError):
-        tokenize("")
-        tokenize("   ")
+def test_stop():
+    assert remove_stop(["the", "cat", "is", "on", "the", "roof"]) == ["cat", "roof"]
+    assert remove_stop(["this", "is", "a", "test"]) == ["test"]
+    assert remove_stop(["and", "or", "but"]) == []
+    assert remove_stop(["hello", "world"]) == ["hello", "world"]
+    assert remove_stop([]) == []
 
-def test_stem():
-    assert stem(["running", "jogged", "happily"]) == ["run", "jog", "happili"]
-    assert stem(["cats", "dogs", "mice"]) == ["cat", "dog", "mice"]
-    assert stem(["happier", "happiest"]) == ["happier", "happiest"]
-
-    # Some more difficult cases
-    assert stem(["lying"]) == ["lie"]
-    assert stem(["studies"]) == ["studi"]
-    assert stem(["flying"]) == ["fli"]
-
-    # Cases where it does not work quite right
-    assert stem(["women"]) == ["women"]  # Not "woman"
-
-    # No change cases
-    assert stem(["run"]) == ["run"]
-    assert stem(["foo"]) == ["foo"]
-    assert stem(["hello", "world"]) == ["hello", "world"]
+def test_text_preprocess():
+    assert text_preprocess("Hello, World!") == "hello, world!"
+    assert text_preprocess("This is a test.") == "test."
+    assert text_preprocess("Multiple   spaces") == "multiple spaces"
+    assert text_preprocess("New\nLine") == "new\nline"
+    assert text_preprocess("Punctuation!,\"@#") == "punctuation!,\"@#"
+    assert text_preprocess("") == ""
+    assert text_preprocess("   ") == ""
+    assert text_preprocess("no-punctuation") == "no-punctuation"
+    assert text_preprocess("Mix oF everything! Does IT work? Yes, iT dOes.") == "mix everything! does work? yes, does."
 
 def file_to_String(file_path):
     with open(file_path, 'r') as file:
