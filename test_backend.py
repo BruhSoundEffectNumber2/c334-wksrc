@@ -1,5 +1,5 @@
 import pytest
-from backend.main import tokenize, clean, stem
+from wksrc.backend import tokenize, clean, stem, string_to_file, file_to_String
 
 def test_clean():
     assert clean("  Hello, World!  ") == "hello, world!"
@@ -10,6 +10,7 @@ def test_clean():
     assert clean("   ") == ""
     assert clean("12345") == "12345"
     assert clean("In the\nmiddle") == "in the\nmiddle"
+    
 
 def test_tokenize():
     # Basic test cases
@@ -38,16 +39,6 @@ def test_stem():
     assert stem(["run"]) == ["run"]
     assert stem(["foo"]) == ["foo"]
     assert stem(["hello", "world"]) == ["hello", "world"]
-
-def file_to_String(file_path):
-    with open(file_path, 'r') as file:
-        text = file.read()
-    return text
-
-
-def string_to_file(string, file_path):
-    with open(file_path, 'w') as file:
-        file.write(string)
 
 def test_file_to_String():
     test_string = "This is a test string."

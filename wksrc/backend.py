@@ -20,3 +20,13 @@ def text_preprocess(raw: str) -> str:
     final_tokens = stem(tokenize(clean(raw)))
 
     return ' '.join(final_tokens)
+
+def file_to_String(file_path):
+    with open(file_path, 'r') as file:
+        text = file.read()
+    return text
+
+
+def string_to_file(string, file_path):
+    with open(file_path, 'w') as file:
+        file.write(string)
