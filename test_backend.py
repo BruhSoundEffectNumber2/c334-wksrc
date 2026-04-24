@@ -1,5 +1,5 @@
 import pytest
-from wksrc.backend import tokenize, clean, stem
+from wksrc.backend import tokenize, clean, stem, string_to_file, file_to_String
 
 def test_clean():
     assert clean("  Hello, World!  ") == "hello, world!"

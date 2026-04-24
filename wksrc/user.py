@@ -1,4 +1,4 @@
-from backend import text_preprocess, file_to_String, string_to_file
+from .backend import text_preprocess, file_to_String, string_to_file
 def hello():
     return "Hello, World!"
 
