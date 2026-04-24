@@ -1,4 +1,14 @@
-from backend.main import tokenize, remove_stop, text_preprocess
+from wksrc.backend import tokenize, clean, string_to_file, file_to_String, remove_stop, text_preprocess
+
+def test_clean():
+    assert clean("  Hello, World!  ") == "hello, world!"
+    assert clean("\nNew Line\n") == "new line"
+    assert clean("Mixed CASE") == "mixed case"
+    assert clean("Special chars!@#") == "special chars!@#"
+    assert clean("") == ""
+    assert clean("   ") == ""
+    assert clean("12345") == "12345"
+    assert clean("In the\nmiddle") == "in the\nmiddle"
 
 def test_tokenize():
     assert tokenize("Hello, World!") == ["hello", ",", "world", "!"]
@@ -29,16 +39,6 @@ def test_text_preprocess():
     assert text_preprocess("   ") == ""
     assert text_preprocess("no-punctuation") == "no-punctuation"
     assert text_preprocess("Mix oF everything! Does IT work? Yes, iT dOes.") == "mix everything! does work? yes, does."
-
-def file_to_String(file_path):
-    with open(file_path, 'r') as file:
-        text = file.read()
-    return text
-
-
-def string_to_file(string, file_path):
-    with open(file_path, 'w') as file:
-        file.write(string)
 
 def test_file_to_String():
     test_string = "This is a test string."
