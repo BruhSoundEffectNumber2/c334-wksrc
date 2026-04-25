@@ -14,14 +14,10 @@
 
 ## Dependencies
 
+Only needed for development
+
 ```bash
 pip install -r requirements.txt
-```
-
-Download NLTK data:
-
-```bash
-python3 dl_nltk_data.py
 ```
 
 ## Quick Start
