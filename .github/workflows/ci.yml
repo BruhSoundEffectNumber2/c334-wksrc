@@ -20,9 +20,7 @@ jobs:
                   cache: "pip"
             - name: Install dependencies
               run: pip install -r requirements.txt
-            - name: Download NLTK data
-              run: python3 dl_nltk_data.py
             - name: Run unit tests and coverage
-              run: pytest --cov=user --cov=backend
+              run: pytest --cov=wksrc
             - name: Run linting
-              run: pylint backend/*.py user/*.py --exit-zero
+              run: pylint pylint wksrc/*.py --exit-zero
