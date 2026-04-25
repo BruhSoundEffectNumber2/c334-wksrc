@@ -1,23 +1,27 @@
-PUNCTUATION = [",", ".", "?", "!", "\"", "'", "-", "`", ":", ";", "(", ")", "@", "#", "\n"]
+import json
+
+PUNCTUATION = [",", ".", "?", "!", "\"", "-", "`", ":", ";", "(", ")", "@", "#", "\n"]
 STOP_WORDS = set([
         "the", "is", "in", "and", "to", "of", "a", "that", "it", "with",
         "as", "for", "was", "on", "are", "by", "this", "be", "or",
         "from", "at", "which", "but", "not"
     ])
 
-def tokenize(raw: str) -> list[str]:
-    out = []
+def tokenize(raw: str) -> tuple[list[str], list[int]]:
+    out = ([], [])
     token = ""
+    token_start = 0
 
     def add_token():
-        nonlocal token, out
+        nonlocal token, out, token_start
 
         if token == "":
             return
-        out.append(token.lower())
+        out[0].append(token.lower())
+        out[1].append(token_start)
         token = ""
 
-    for c in raw:
+    for idx, c in enumerate(raw):
         # Skip 's in contractions completely
         if c == "'" and token != "":
             continue
@@ -27,9 +31,12 @@ def tokenize(raw: str) -> list[str]:
             continue
         elif c in PUNCTUATION:
             add_token()
-            out.append(c)
+            out[0].append(c)
+            out[1].append(idx)
             continue
         
+        if token == "":
+            token_start = idx
         token += c
 
     # Add the last token if there is one
@@ -37,25 +44,26 @@ def tokenize(raw: str) -> list[str]:
         
     return out
 
-def remove_stop(raw: list[str]) -> list[str]: 
-    return [token for token in raw if token not in STOP_WORDS]
+def remove_stop(raw: tuple[list[str], list[int]]) -> tuple[list[str], list[int]]: 
+    out = ([], [])
 
+    for i in range(len(raw[0])):
+        if raw[0][i] not in STOP_WORDS:
+            out[0].append(raw[0][i])
+            out[1].append(raw[1][i])
 
-def text_preprocess(raw: str) -> str:
-    out = ""
-    tokens = remove_stop(tokenize(raw))
-    last_token = None
+    return out
 
-    # Put a space between each token, but not before punctuation and before/after newlines
-    for token in tokens:
-        if token in PUNCTUATION or last_token in ["\n", "-"]:
-            out += token
-        else:
-            out += " " + token
-        
-        last_token = token
+def serialize_preprocess(pre: tuple[list[str], list[int]]) -> str:
+    return json.dumps({"tokens": pre[0], "idx": pre[1]})
 
-    return out.strip()
+def deserialize_preprocess(pre_str: str) -> tuple[list[str], list[int]]:
+    pre_dict = json.loads(pre_str)
+    return (pre_dict["tokens"], pre_dict["idx"])
+
+def text_preprocess(raw: str) -> dict:
+    final = remove_stop(tokenize(raw))
+    return {"tokens": final[0], "idx": final[1]}
 
 def file_to_String(file_path):
     with open(file_path, 'r') as file:
