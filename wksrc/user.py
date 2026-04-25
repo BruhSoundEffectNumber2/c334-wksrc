@@ -1,4 +1,5 @@
-from .backend import text_preprocess, file_to_String, string_to_file
+from backend import text_preprocess, file_to_String, string_to_file
+
 def hello():
     return "Hello, World!"
 
@@ -17,7 +18,7 @@ def given_path(path):
     except FileNotFoundError:
         print(f"File {path} not found. Please check the file path and try again.")
 
-if __name__ == "__main__":
+def main():
     print(hello())
     print("Welcome to the our text indexing and searching system! Please provide a file path to index and search for keywords.")
     path = input("Enter file path: ")
@@ -27,3 +28,6 @@ if __name__ == "__main__":
         print(f"File path {path} confirmed. Proceeding with indexing and searching.")
         given_path(path)
     else:        print("File path not confirmed. Please restart the program and enter the correct file path.")
+
+if __name__ == "__main__":
+    main()
