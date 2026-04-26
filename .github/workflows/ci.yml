@@ -20,8 +20,27 @@ jobs:
                   cache: "pip"
             - name: Install dependencies
               run: pip install -r requirements.txt
-            - name: Run unit tests
-              run: pytest
+            - name: Run unit tests and coverage
+              run: pytest --cov=wksrc
             - name: Run linting
-              run: pylint wksrc/*.py
-              continue-on-error: true
+              run: pylint wksrc/*.py --exit-zero
+    cd:
+        needs: ci
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-python@v6
+              with:
+                  python-version: "3.10"
+                  cache: "pip"
+            - name: Zip and move to dist
+              run: mkdir -p dist/wksrc/usr/local/bin && python3 -m zipapp wksrc -p "/usr/bin/env python3" --output dist/wksrc/usr/local/bin/wksrc -m user:main
+            - name: Setup for packaging
+              run: chmod +x dist/wksrc/usr/local/bin/wksrc
+            - name: Package
+              run: dpkg-deb -b dist/wksrc
+            - name: Upload package
+              uses: actions/upload-artifact@v7
+              with:
+                  name: wksrc
+                  path: dist/wksrc.deb
