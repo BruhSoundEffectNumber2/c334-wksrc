@@ -34,7 +34,7 @@ jobs:
                   python-version: "3.10"
                   cache: "pip"
             - name: Zip and move to dist
-              run: mkdir dist/wksrc/usr/local/bin && python3 -m zipapp wksrc -p "/usr/bin/env python3" --output dist/wksrc/usr/local/bin/wksrc
+              run: mkdir dist/wksrc/usr/local/bin && python3 -m zipapp wksrc -p "/usr/bin/env python3" --output dist/wksrc/usr/local/bin/wksrc -m user:main
             - name: Setup for packaging
               run: chmod +x dist/wksrc/usr/local/bin/wksrc
             - name: Package
