@@ -1,4 +1,5 @@
 from wksrc.backend import *
+from wksrc.search import *
 
 def test_tokenize():
     assert tokenize("Hello, World!") == (["hello", ",", "world", "!"], [0, 5, 7, 12])
@@ -52,3 +53,15 @@ def test_file_to_String():
     result = file_to_String(test_file_path)
     
     assert result == test_string
+
+def test_search_finds_match():
+    content = "the quick brown fox jumps over the lazy dog"
+    tokens = ["quick", "brown", "fox", "jumps", "lazy", "dog"]
+    idx =    [4,       10,      16,    20,       35,     40]
+    assert search(content, tokens, idx, "fox") == ["quick brown fox jumps over"]
+
+def test_search_no_match():
+    content = "hello world"
+    tokens = ["hello", "world"]
+    idx = [0, 6]
+    assert search(content, tokens, idx, "python") == []
