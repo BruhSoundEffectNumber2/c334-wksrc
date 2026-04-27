@@ -21,3 +21,7 @@ pip install -r requirements.txt
 ```
 
 ## Quick Start
+
+```bash
+python3 wksrc/user.py
+```
