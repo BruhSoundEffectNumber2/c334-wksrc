@@ -54,22 +54,13 @@ def remove_stop(raw: tuple[list[str], list[int]]) -> tuple[list[str], list[int]]
 
     return out
 
-def serialize_preprocess(pre: tuple[list[str], list[int]]) -> str:
-    return json.dumps({"tokens": pre[0], "idx": pre[1]})
+def serialize_preprocess(pre: dict) -> str:
+    return json.dumps({"tokens": pre["tokens"], "idx": pre["idx"]})
 
-def deserialize_preprocess(pre_str: str) -> tuple[list[str], list[int]]:
+def deserialize_preprocess(pre_str: str) -> dict:
     pre_dict = json.loads(pre_str)
-    return (pre_dict["tokens"], pre_dict["idx"])
+    return {"tokens": pre_dict["tokens"], "idx": pre_dict["idx"]}
 
 def text_preprocess(raw: str) -> dict:
     final = remove_stop(tokenize(raw))
     return {"tokens": final[0], "idx": final[1]}
-
-def file_to_String(file_path):
-    with open(file_path, 'r') as file:
-        text = file.read()
-    return text
-
-def string_to_file(string, file_path):
-    with open(file_path, 'w') as file:
-        file.write(string)

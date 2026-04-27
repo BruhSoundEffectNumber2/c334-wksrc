@@ -2,3 +2,7 @@ __pycache__/
 # CI/test artifacts
 .coverage
 .venv/
+# Test file
+test_data/dummy.txt
+# Indexes
+*.txt.index

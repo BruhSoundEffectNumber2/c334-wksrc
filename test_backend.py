@@ -32,27 +32,17 @@ def test_text_preprocess():
     assert text_preprocess("Mix oF everything! Does IT work? Yes,   iT dOes.") == {"idx": [0, 7, 17, 19, 27, 31, 33, 36, 43, 47], "tokens": ["mix", "everything", "!", "does", "work", "?", "yes", ",", "does", "."]}
 
 def test_serialize_deserialize():
-    pre = (["hello", "world"], [0, 6])
+    pre = {"tokens": ["hello", "world"], "idx": [0, 6]}
     pre_str = serialize_preprocess(pre)
     assert deserialize_preprocess(pre_str) == pre
 
-    pre = (["more", "complex", "test", "!"], [0, 5, 12, 22])
+    pre = {"tokens": ["more", "complex", "test", "!"], "idx": [0, 5, 12, 22]}
     pre_str = serialize_preprocess(pre)
     assert deserialize_preprocess(pre_str) == pre
 
-    pre = ([], [])
+    pre = {"tokens": [], "idx": []}
     pre_str = serialize_preprocess(pre)
     assert deserialize_preprocess(pre_str) == pre
-
-def test_file_to_String():
-    test_string = "This is a test string."
-    test_file_path = "test_path.txt"
-    
-    string_to_file(test_string, test_file_path)
-    
-    result = file_to_String(test_file_path)
-    
-    assert result == test_string
 
 def test_search_finds_match():
     content = "the quick brown fox jumps over the lazy dog"
