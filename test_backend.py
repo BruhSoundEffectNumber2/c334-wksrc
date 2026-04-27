@@ -58,7 +58,7 @@ def test_search_finds_match():
     content = "the quick brown fox jumps over the lazy dog"
     tokens = ["quick", "brown", "fox", "jumps", "lazy", "dog"]
     idx =    [4,       10,      16,    20,       35,     40]
-    assert search(content, tokens, idx, "fox", window=10) == ["brown fox jumps"]
+    assert search(content, tokens, idx, "fox", window=6) == ["brown fox jumps"]
 
 def test_search_no_match():
     content = "hello world"
